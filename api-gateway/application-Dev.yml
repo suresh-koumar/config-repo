@@ -41,8 +41,6 @@ management:
 spring:
   application:
     name: api-gateway
-  profiles:
-    active: Dev
   cloud:
     config:
       profile: Dev
