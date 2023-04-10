@@ -35,12 +35,15 @@ management:
       show-details: always
       enabled: true
       show-components: always
-    ratelimiters:
+    rate-limiters:
         enabled: true
       
 spring:
   application:
     name: api-gateway
+#from config file need to remove spring.profiles.active
+#  profiles:
+#    active: Dev
   cloud:
     config:
       profile: Dev
