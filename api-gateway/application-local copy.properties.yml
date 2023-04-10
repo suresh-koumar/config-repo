@@ -1,0 +1,65 @@
+management.health.circuitbreakers.enabled: true
+management.health.ratelimiters.enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+    instances:
+      globalfalback:
+        register-health-indicator: true    
+  retry:
+    instances:
+      user-service:
+        wait-duration: 10
+        max-attempts: 3
+
+resilience4j.ratelimiter:
+  configs:
+    instances:
+      registerHealthIndicator: true
+  metrics:
+    enabled: true
+        
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+      show-components: always
+    ratelimiters:
+        enabled: true
+      
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: Dev
+  cloud:
+    config:
+      profile: Dev
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#for small case service name
+          lowerCaseServiceId: true    
+      
+server:
+  port: 9000
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}-${random.int}
+  client:
+    serviceUrl:
+      defaultZone: http://${registry.host:localhost}:${registry.port:8761}/eureka
